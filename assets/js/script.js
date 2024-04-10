@@ -4,6 +4,18 @@ const resultTextEl = document.querySelector('#result-text');
 const resultContentEl = document.querySelector('#result-content');
 
 
+function readCitiesFromStorage () {
+    let cities=JSON.parse(localStorage.getItem('cities')); 
+    if (!cities) {
+        cities= [];
+    }
+    return cities;
+
+}
+
+function saveCitiesToStorage (cities){
+    localStorage.setItem('cities', JSON.stringify(cities));
+}
 
 function handleSearchFormSubmit(event) {
     event.preventDefault(); 
@@ -32,7 +44,7 @@ function getParams () {
 function searchApi(city) {
     const cityURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}`;
 
-    fetch(cityURL) 
+    fetch(cityURL)
         .then(function(response) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -40,23 +52,8 @@ function searchApi(city) {
             return response.json();
         })
         .then(function(weather) {
-            
-            resultTextEl.textContent = weather.main; 
-            
-            console.log(weather); 
-
-            
-            if (!weather.main) {
-                console.log('No results found.');
-                resultContentEl.innerHTML = '<h3>No results found, please search again.</h3>';
-            } else {
-                resultContentEl.textContent = '';
-                
-                for (let i = 0; i < weather.main.length; i++) {
-                    
-                    printResults(weather.main[i]);
-                }
-            }
+            // Display weather data
+            displayWeather(weather);
         })
         .catch(function(error) {
             console.error('Error fetching data:', error);
@@ -65,29 +62,32 @@ function searchApi(city) {
 }
 
 
-function printResults(resultsObj) {
-    console.log(resultsObj); 
+function displayWeather(weather) {
+    if (!weather.main) {
+        console.log('No results found.');
+        resultContentEl.innerHTML = '<h3>No results found, please search again.</h3>';
+    } else {
+        resultContentEl.innerHTML = ''; // Clear previous results
 
-    const resultCard = document.createElement('div'); 
-    resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3'); 
+        const resultCard = document.createElement('div');
+        resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
 
-    const resultBody = document.createElement('div'); 
-    resultBody.classList.add('card-body');
-    resultCard.append(resultBody); 
+        const resultBody = document.createElement('div');
+        resultBody.classList.add('card-body');
+        resultCard.append(resultBody);
 
-    const titleEl = document.createElement('h3'); 
-    titleEl.textContent = resultsObj.title; 
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = weather.name; // Display city name
 
-    const bodyContentEl = document.createElement('p');
-    bodyContentEl.innerHTML += 
-        `<strong>Subjects:</strong>${resultsObj.subject.join(', ')}<br/>`;
+        const bodyContentEl = document.createElement('p');
+        bodyContentEl.innerHTML +=
+            `<strong>Temperature:</strong> ${weather.main.temp}<br/>` +
+            `<strong>Humidity:</strong> ${weather.main.humidity}%<br/>`; // Display temperature and humidity
 
-    if (resultsObj.description) {
-        bodyContentEl.innerHTML += 
-        '<strong>Description:</strong>  No description for this entry.';
+        resultBody.append(titleEl, bodyContentEl);
+
+        resultContentEl.append(resultCard); // Append resultCard to resultContentEl
     }
-
-    resultBody.append(titleEl, bodyContentEl); 
-
-    resultContentEl.append(resultCard);
 }
+
+
