@@ -15,7 +15,7 @@
 
     <body>
         <div class="container">
-            <nav class= "navbar navbar-dark bg-primary w-100">
+            <nav class= "navbar navbar-dark bg-primary w-100 ">
                 <a class="navbar-brand" href="#">Weather Dashboard</a>
             </nav>
         </div>
@@ -26,12 +26,20 @@
                     <form id="search-form" class="form">
                         <input id="search-input" class="form-input w-100" type="text" placeholder="Enter City!">
                         <button type="submit" class="btn btn-primary btn-lg active w-100">Search</button>
+                        <br>
+                        <br>
+                        <ul id="saved-cities-list" ></ul>
                     </form>
 
                 </div>
                 <div class="col-9">
-                    <h2>5-Day Forecast<span id="result-text"></span></h2>
+                    <h2>Today's Forecast: </h2>
                     <div id="result-content"></div>
+
+                    <h2>5-Day Forecast:<span id="result-text"></span></h2>
+                    <div id="result-forecast"></div>
+
+                    
 
                 </div>
 
