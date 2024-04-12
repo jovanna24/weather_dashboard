@@ -5,6 +5,7 @@ const resultContentEl = document.querySelector('#result-content');
 const resultForecastEl = document.querySelector('#result-forecast');
 
 
+//Function to retrieve prior search history
 function readCitiesFromStorage () {
     let cities=JSON.parse(localStorage.getItem('cities')); 
     if (!cities) {
@@ -13,7 +14,7 @@ function readCitiesFromStorage () {
     return cities;
 
 }
-
+//Function to save searches to local storage
 function saveCityToStorage(city) {
     let cities = readCitiesFromStorage();
 
@@ -26,7 +27,7 @@ function saveCityToStorage(city) {
     }
 
 }
-
+//Function to retrieve searched city weather information
 function handleSearchFormSubmit(event) {
     event.preventDefault(); 
 
@@ -45,7 +46,7 @@ function handleSearchFormSubmit(event) {
 
     // displayWeather();
 }
-
+//
 searchFormEl.addEventListener('submit', handleSearchFormSubmit); 
 
 
@@ -75,7 +76,7 @@ function displaySavedCities() {
         savedCitiesList.appendChild(button);
     });
 }
-
+//3rd party API used to retrieve search from weather server
 function searchApi(city) {
     const cityURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=imperial`;
 
@@ -95,7 +96,7 @@ function searchApi(city) {
             resultContentEl.innerHTML = '<h3>Error fetching data. Please try again later.</h3>';
         });
 }
-
+//function to retrieve 5 day forecast 
 function searchForecastApi(city) {
     const cityURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIkey}&units=imperial`;
 
@@ -128,7 +129,7 @@ function searchForecastApi(city) {
         });
 }
 
-
+//Displays today's forecast
 function displayWeather(weather) {
     if (!weather.main) {
         console.log('No results found.');
@@ -159,7 +160,7 @@ function displayWeather(weather) {
         resultContentEl.append(resultCard); 
     }
 }
-
+//displays 5 day forecast
 function displayForecast(forecast) {
     if (forecast.length == 0) {
         console.log('No results found.');
@@ -195,7 +196,7 @@ function displayForecast(forecast) {
        }
     }
 }
-
+//function to return a reformatted date
 function formatDate(date) {
     const options = {
         weekday: 'long',
