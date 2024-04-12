@@ -77,7 +77,7 @@ function displaySavedCities() {
 }
 
 function searchApi(city) {
-    const cityURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=imperial`;
+    const cityURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=imperial`;
 
     fetch(cityURL)
         .then(function(response) {
@@ -97,7 +97,7 @@ function searchApi(city) {
 }
 
 function searchForecastApi(city) {
-    const cityURL = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIkey}&units=imperial`;
+    const cityURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIkey}&units=imperial`;
 
     fetch(cityURL)
         .then(function(response) {
